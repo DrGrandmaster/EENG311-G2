@@ -7,12 +7,14 @@ exportFilename = "DIA_Model";
 % Network Layers
 layers = [
     sequenceInputLayer(1)
-    lstmLayer(256, "OutputMode", "sequence")
+    lstmLayer(128, "OutputMode", "sequence")
+    dropoutLayer(0.2)
+    lstmLayer(128, "OutputMode", "sequence")
     dropoutLayer(0.2)
     lstmLayer(128, "OutputMode","last")
     dropoutLayer(0.2)
     fullyConnectedLayer(9)
-    softmax()
+    softmaxLayer
     classificationLayer()];
 
 % Load Training Data

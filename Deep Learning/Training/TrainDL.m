@@ -6,19 +6,17 @@ exportFilename = "DIA_Model";
 
 % Network Layers
 layers = [
-    sequenceInputLayer(1)
-    lstmLayer(128,'OutputMode','sequence')
-    dropoutLayer(0.2)
-    lstmLayer(128,'OutputMode','sequence')
-    dropoutLayer(0.2)
-    lstmLayer(128,'OutputMode','sequence')
-    dropoutLayer(0.2)
-    lstmLayer(128,'OutputMode','sequence')
-    dropoutLayer(0.2)
-    lstmLayer(128, "OutputMode","last")
-    fullyConnectedLayer(9)
-    softmaxLayer()
-    classificationLayer()];
+    sequenceInputLayer(1,"Name","sequenceinput")
+    fullyConnectedLayer(100,"Name","fc_1")
+    selfAttentionLayer(4,256,"Name","selfattention")
+    fullyConnectedLayer(100,"Name","fc_2")
+    geluLayer("Name","gelu")
+    fullyConnectedLayer(100,"Name","fc_3")
+    geluLayer("Name","gelu_1")
+    lstmLayer(128,"Name","lstm","OutputMode","last")
+    fullyConnectedLayer(9,"Name","fc")
+    softmaxLayer("Name","softmax")
+    classificationLayer("Name","classoutput")];
 
 % Load Training Data
 load(trainingDataFilename);
@@ -39,7 +37,7 @@ opts = trainingOptions( ...
     "InitialLearnRate", 0.01, ...
     "LearnRateSchedule","piecewise", ...
     "LearnRateDropPeriod", 2, ...
-    MaxEpochs=20, ...
+    MaxEpochs=100, ...
     SequencePaddingDirection="left", ...
     Plots="training-progress", ...
     Verbose=0 ...

@@ -2,16 +2,18 @@
 
 % Configuration
 trainingDataFilename = "sequence_DIAtemp_test.mat";
-exportFilename = "DIA_Model";
+dataset = "DIA";
+modelName = "EvenMoreBunchOfLSTM";
+epochs = 20;
 
 % Network Layers
 layers = [
     sequenceInputLayer(1)
-    lstmLayer(128, "OutputMode", "sequence")
+    lstmLayer(256, "OutputMode", "sequence")
     dropoutLayer(0.2)
-    lstmLayer(128, "OutputMode", "sequence")
+    lstmLayer(256, "OutputMode", "sequence")
     dropoutLayer(0.2)
-    lstmLayer(128, "OutputMode","last")
+    lstmLayer(256, "OutputMode","last")
     dropoutLayer(0.2)
     fullyConnectedLayer(9)
     softmaxLayer
@@ -36,7 +38,7 @@ opts = trainingOptions( ...
     "InitialLearnRate", 0.01, ...
     "LearnRateSchedule","piecewise", ...
     "LearnRateDropPeriod", 2, ...
-    MaxEpochs=100, ...
+    MaxEpochs=epochs, ...
     SequencePaddingDirection="left", ...
     Plots="training-progress", ...
     Verbose=0 ...
@@ -50,4 +52,5 @@ disp('Press any key to continue.');
 pause;
 
 % Export Network to .mat File
-save(exportFilename, "net");
+save(modelName + "_Layers", "layers");
+save(modelName + "_" + dataset + "_Model", "net");

@@ -1,9 +1,9 @@
 %% Creates a Neural Network to Forcast the Next Element of a Time Series
 
 % Configuration
-trainingDataFilename = "sequence_DIAtemp_test.mat";
+trainingDataFilename = "sequence_DIAtemp_train.mat";
 dataset = "DIA";
-modelName = "EvenMoreBunchOfLSTM";
+modelName = "BunchOfLSTM";
 epochs = 20;
 
 % Network Layers
@@ -52,5 +52,5 @@ disp('Press any key to continue.');
 pause;
 
 % Export Network to .mat File
-save(modelName + "_Layers", "layers");
+%save(modelName + "_Layers", "layers");
 save(modelName + "_" + dataset + "_Model", "net");
